@@ -1,0 +1,373 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — sampled directly from the reference palette
+   ========================================================================== */
+@theme {
+  --color-sand: #d5cfbe;
+  --color-sand-2: #e0dfc5;
+  --color-sand-3: #ebeada;
+  --color-cream: #f8f7f3;
+  --color-yellow: #ffff23;
+  --color-ink: #000000;
+  --color-ink-2: #222222;
+  --color-charcoal: #403f3c;
+  --color-slate: #555652;
+  --color-mute: #a6a6a6;
+  --color-khaki: #a8a684;
+
+  --font-display: var(--font-archivo), "Arial Black", sans-serif;
+  --font-sans: var(--font-geist-sans), Arial, sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power3: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+:root {
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background-color: var(--color-sand);
+}
+
+body {
+  background-color: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-yellow);
+  color: var(--color-ink);
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-sand);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal);
+  border-radius: 99px;
+}
+
+/* ==========================================================================
+   Typography utilities
+   ========================================================================== */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+  font-size: clamp(3.4rem, 11.2vw, 10rem);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.03;
+  font-size: clamp(2.6rem, 6.6vw, 5.2rem);
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-size: clamp(2.2rem, 5vw, 3.9rem);
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+}
+
+.t-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.t-body {
+  font-size: clamp(0.95rem, 1.05vw, 1.06rem);
+  line-height: 1.62;
+}
+
+/* ==========================================================================
+   Motion primitives — these mirror the reference site's data-tl system.
+   Elements start hidden and GSAP reveals them. `.no-js` guards against a
+   flash of invisible content if JS fails.
+   ========================================================================== */
+[data-anim] {
+  will-change: transform, opacity;
+}
+
+.split-line {
+  display: block;
+  overflow: hidden;
+}
+.split-line > span {
+  display: block;
+  will-change: transform;
+}
+
+.wipe-target {
+  clip-path: inset(100% 0% 0% 0%);
+}
+
+.no-js [data-anim],
+.no-js .wipe-target {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-anim],
+  .wipe-target {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+.rule {
+  height: 1px;
+  width: 100%;
+  background: color-mix(in srgb, var(--color-ink) 14%, transparent);
+}
+
+.rule-light {
+  height: 1px;
+  width: 100%;
+  background: color-mix(in srgb, var(--color-cream) 16%, transparent);
+}
+
+/* Glass stat card — matches the frosted panels over the hero portrait */
+.glass {
+  background: color-mix(in srgb, var(--color-ink) 26%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+}
+
+/* Pill button with yellow fill sweep */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-expo);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-yellow);
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease-expo);
+}
+.btn:hover::before {
+  transform: translateY(0);
+}
+
+.btn-solid {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+.btn-solid:hover {
+  color: var(--color-ink);
+}
+
+.btn-outline {
+  border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+  color: var(--color-ink);
+}
+.btn-outline:hover {
+  color: var(--color-ink);
+  border-color: var(--color-yellow);
+}
+
+.btn-yellow {
+  background: var(--color-yellow);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.btn-yellow::before {
+  background: var(--color-ink);
+}
+.btn-yellow:hover {
+  color: var(--color-yellow);
+}
+
+.btn-light {
+  border: 1px solid color-mix(in srgb, var(--color-cream) 30%, transparent);
+  color: var(--color-cream);
+}
+.btn-light:hover {
+  color: var(--color-ink);
+}
+
+/* Underline sweep for nav / text links */
+.link-sweep {
+  position: relative;
+  display: inline-block;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-expo);
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Blinking status dot — solid core with an expanding ring */
+@keyframes status-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@keyframes status-core {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.status-dot {
+  position: relative;
+  display: inline-block;
+  height: 7px;
+  width: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: status-core 1.9s ease-in-out infinite;
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: currentColor;
+  animation: status-ping 1.9s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot,
+  .status-dot::after {
+    animation: none;
+  }
+  .status-dot::after {
+    opacity: 0;
+  }
+}
+
+/* Horizontal scrollers */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* Section shell */
+.shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+/* Noise overlay for depth, like the reference's textured sand */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
