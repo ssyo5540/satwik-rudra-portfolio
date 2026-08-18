@@ -38,7 +38,12 @@ jobs:
           # Project page => the site is served from a sub-path.
           NEXT_PUBLIC_BASE_PATH: /satwik-rudra-portfolio
 
+      # enablement: switch the repo's Pages source to "GitHub Actions" via the
+      # API. Without it this step fails when Pages is still set to deploy from
+      # a branch, which is the default.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
